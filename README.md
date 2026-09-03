@@ -1,29 +1,52 @@
-# Welcome to your Lovable project
+# CodeAlpha_FlashcardQuizApp — Vellum
 
-This project was built with [Lovable](https://lovable.dev).
+A flashcard quiz app built with React, TypeScript, Tailwind CSS, and TanStack Start.
+Each flashcard has a question on the front and an answer on the back.
 
-## Build with Lovable
+## Features
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+- **Show / Hide answer** on the current flashcard
+- **Next / Previous** navigation with wrap-around, plus clickable progress ticks
+- **Card counter** — e.g. "Card 3 of 10"
+- **Add, Edit, Delete** flashcards from the side panel
+- **Input validation** — empty questions or answers cannot be saved
+- **Persistent storage** — cards are saved to `localStorage` and reloaded when the app reopens
+- **Responsive layout** — two columns on desktop, stacked on mobile
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Project structure
 
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```
+src/
+├── routes/
+│   ├── __root.tsx        # App shell, fonts, global metadata
+│   └── index.tsx         # Main page: study card + card manager
+├── components/
+│   ├── StudyCard.tsx     # Flashcard display, reveal toggle, navigation, progress
+│   └── CardManager.tsx   # Card list + add/edit form with validation
+├── hooks/
+│   └── useFlashcards.ts  # All flashcard state and actions
+├── lib/
+│   └── flashcards.ts     # Data model + localStorage load/save helpers
+└── styles.css            # Design tokens (colors, fonts, card tilt effect)
 ```
 
-## Built with
+## Running the project
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+```sh
+# Install dependencies
+bun install
+
+# Start the dev server
+bun run dev
+
+# Production build
+bun run build
+```
+
+Then open http://localhost:8080 in your browser.
+
+## How data is stored
+
+Cards are serialized to JSON and written to `localStorage` under the key
+`vellum-flashcards` on every change. On startup the app reads that key; if it's
+missing or invalid, a small set of default starter cards is shown instead.
